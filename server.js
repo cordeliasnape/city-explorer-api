@@ -1,22 +1,31 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const PORT = process.env.PORT || 8080;
 const app = express();
+const PORT = process.env.PORT || 8080;
 app.use(cors());
-
-// add your endpoints here
 const data = require("./data/weather.json");
 
-// console.log(data[0].lon);
+app.get("/", (_, response) => response.json("Root route."));
 
-function findWeather(data) {
-  return data.filter(lat, lon, searchQuery);
-}
+app.get("/weather", (request, response) => {
+  // const lat = request.query.lat;
+  // const lon = request.query.lon;
+  const searchQuery = request.query.searchQuery;
 
-app.get("/weather", (req, res) => {
-  const { lat, lon, searchQuery } = req.query;
-  console.log(findWeather(lat, loc));
+  const filteredCity = data.find((city) => {
+    return (
+      city.city_name === searchQuery // && city.lat === lat && city.lon === lon
+    );
+  });
+
+  const wrangledData = filteredCity.data.map((day) => {
+    return {
+      description: day.weather.description,
+      date: day.datetime,
+    };
+  });
+  response.json(wrangledData);
 });
 
-app.listen(PORT, () => console.log(`App is running PORT ${PORT}`));
+app.listen(PORT, () => console.log(`App is running on port ${PORT}`));
