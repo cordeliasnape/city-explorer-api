@@ -26,4 +26,4 @@
 
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
 
-This app was built using [LocationIQ](https://locationiq.com/)
+This app was built using [Locati
